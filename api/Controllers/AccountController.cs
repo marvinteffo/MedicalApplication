@@ -94,5 +94,10 @@ namespace api.Controllers
                 return StatusCode(500, e);
             }
         }
+
+       /* [HttpPost("{id}")]
+        public Task<IActionResult> GetUser(int id){
+            var user = _userManager.GetUserById();
+        }*/
     }
 }
