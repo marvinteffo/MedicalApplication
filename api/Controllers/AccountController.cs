@@ -26,7 +26,7 @@ namespace api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody]LoginDto loginDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -40,9 +40,9 @@ namespace api.Controllers
             if (!result.Succeeded) return Unauthorized("Username not found and/or password incorrect");
 
             return Ok(
-                new NewUserDto
+                new UserResponseDto
                 {
-                    UserName = user.UserName,
+                    Username = user.UserName,
                     Email = user.Email,
                     Token = _tokenService.CreateToken(user)
                 }
@@ -73,7 +73,7 @@ namespace api.Controllers
                         return Ok(
                             new NewUserDto
                             {
-                                UserName = appUser.UserName,
+                                Username = appUser.UserName,
                                 Email = appUser.Email,
                                 Token = _tokenService.CreateToken(appUser)
                             }
@@ -95,9 +95,37 @@ namespace api.Controllers
             }
         }
 
-       /* [HttpPost("{id}")]
-        public Task<IActionResult> GetUser(int id){
-            var user = _userManager.GetUserById();
-        }*/
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (appUser == null)
+                return NotFound("User not found!");
+
+            return Ok(
+                new UserResponseDto
+                {
+                    Username = appUser.UserName,
+                    Email = appUser.Email
+                }
+            );
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var appUsers = await _userManager.Users.ToListAsync();
+
+            var userDtos = appUsers.Select(user => new UserResponseDto
+            {
+                Username = user.UserName,
+                Email = user.Email
+            });
+
+            return Ok(userDtos);
+        }
+
+
     }
 }

@@ -13,5 +13,7 @@ namespace api.Dtos.Doctor
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string OfficeLocation { get; set; }
+        public DateTime DateHired { get; set; } = DateTime.Now; 
+
     }
 }

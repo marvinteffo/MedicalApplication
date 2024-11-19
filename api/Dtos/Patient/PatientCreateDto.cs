@@ -16,5 +16,8 @@ namespace api.Dtos.Patient
         public string Address { get; set; }
         public string EmergencyContact { get; set; }
         public string MedicalHistory { get; set; }
+        public DateTime DateRegistered { get; set; } = DateTime.Now; 
+
+        
     }
 }

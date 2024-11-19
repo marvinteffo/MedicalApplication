@@ -20,6 +20,10 @@ namespace api.Data
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
